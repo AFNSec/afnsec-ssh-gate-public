@@ -6,8 +6,8 @@ set -euo pipefail
 # =========================
 RELEASE_TAG="v1"
 ASSET_NAME="afnsec-ssh-gate-v1-amd64"
-BIN_URL="https://github.com/AFNSec/afnsec-ssh-gate/releases/download/${RELEASE_TAG}/${ASSET_NAME}"
-SHA_URL="https://github.com/AFNSec/afnsec-ssh-gate/releases/download/${RELEASE_TAG}/${ASSET_NAME}.sha256"
+BIN_URL="https://github.com/AFNSec/afnsec-ssh-gate-public/releases/download/${RELEASE_TAG}/${ASSET_NAME}"
+SHA_URL="https://github.com/AFNSec/afnsec-ssh-gate-public/releases/download/${RELEASE_TAG}/${ASSET_NAME}.sha256"
 
 # =========================
 # Paths / identities
