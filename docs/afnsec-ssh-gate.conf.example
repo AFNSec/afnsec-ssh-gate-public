@@ -1,0 +1,118 @@
+# /etc/afnsec-ssh-gate.conf.example
+# AFNSec SSH Gate — PAM pre-auth reputation & geo enforcement
+#
+# IMPORTANT:
+# - Use KEY=VALUE only
+# - Do NOT put comments on the same line as values
+# - Restart SSH after changes: systemctl restart ssh
+
+# =========================
+# Core behavior
+# =========================
+ENFORCEMENT=on            # on | off
+FAIL_MODE=open            # open | closed (open = allow if API/config fails)
+DRY_RUN=1                 # 1 = log-only, 0 = enforce
+DENY_SUSPICIOUS=1         # 1 = deny suspicious, 0 = allow suspicious
+
+# =========================
+# AFNSec API
+# =========================
+AFN_API_KEY=REPLACE_ME
+
+# =========================
+# Admin bypass (public IPs only)
+# These CIDRs bypass ALL checks (API, geo, cache)
+# =========================
+BYPASS_CIDRS=203.0.113.10/32,198.51.100.0/24
+
+# =========================
+# Cache
+# =========================
+CACHE_DIR=/var/lib/afnsec-ssh/cache
+
+# Cache limits (enterprise safe defaults)
+CACHE_MAX_ENTRIES=100000     # Max cached IPs
+CACHE_MAX_MB=200             # Max cache disk usage (MB)
+
+# Purge interval (minutes)
+# 1440 = 24 hours
+PURGE_INTERVAL_MIN=1440
+
+# =========================
+# Networking
+# =========================
+ Optional Maximum number of LIVE AFNSec API lookups per second (cache hits excluded).
+# Acts as a circuit breaker under brute-force spray.
+# 0 = disabled (default)
+# Recommended: 10–20 for production SSH hosts
+TIMEOUT_MS=800               # API timeout (ms)
+LOCAL_RPS_CEILING=20         # Reserved (future local rate limiting)
+
+# =========================
+# Firewall (SSH-only, nftables - No GEO)
+# =========================
+# Firewall blocking is OPTIONAL and SSH-specific.
+# It uses nftables sets with per-IP timeouts.
+#
+# Behavior:
+# - Enabled automatically if nftables is present (FW_MODE=auto)
+# - Disabled if nftables is missing
+# - Admin bypass CIDRs are NEVER firewall blocked
+# - Geo-only denies are NEVER firewall blocked
+#
+# Supported firewall backend:
+# - nftables only (ufw uses nftables -- no action needed, works out of the box)
+#
+# To disable firewall blocking even if nftables exists:
+#   FW_MODE=off
+
+FW_MODE=auto
+
+# How long (in seconds) an IP stays blocked in nftables.
+# Default: 8 hours (28800 seconds)
+FW_TTL_SEC=28800
+
+# Which intel verdicts trigger firewall blocking.
+# Default: malicious only
+# Optional: malicious,suspicious
+FW_VERDICTS=malicious
+
+# =========================
+# Logging
+# =========================
+LOG_LEVEL=info               # info | debug
+
+# =========================
+# GEO policy
+#
+# GEO_MODE:
+#   off   = no geo enforcement
+#   block = deny if geo is in GEO_LIST
+#   allow = deny if geo is NOT in GEO_LIST
+#
+# GEO_SCOPE:
+#   country   = ISO country codes (US, NG, ZA, HK, etc.)
+#   continent = continent codes (AF, EU, AS, NA, SA, OC, AN)
+#
+# GEO_LIST:
+#   Comma-separated list matching GEO_SCOPE
+#
+# Examples:
+#   Block Asia + Europe:
+#     GEO_MODE=block
+#     GEO_SCOPE=continent
+#     GEO_LIST=AS,EU
+#
+#   Allow ONLY Africa:
+#     GEO_MODE=allow
+#     GEO_SCOPE=continent
+#     GEO_LIST=AF
+#
+#   Block specific countries:
+#     GEO_MODE=block
+#     GEO_SCOPE=country
+#     GEO_LIST=HK,SG,RU,IR
+# =========================
+GEO_MODE=off
+GEO_SCOPE=continent
+GEO_LIST=

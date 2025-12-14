@@ -1,0 +1,9 @@
+[Unit]
+Description=AFNSec SSH Gate cache purge
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/afnsec-ssh-gate --purge
+User=root
+Group=root

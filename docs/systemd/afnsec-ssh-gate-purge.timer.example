@@ -1,0 +1,11 @@
+[Unit]
+Description=Run AFNSec SSH Gate cache purge periodically
+
+[Timer]
+OnBootSec=10m
+OnUnitActiveSec=60m
+AccuracySec=5m
+Persistent=true
+
+[Install]
+WantedBy=timers.target
