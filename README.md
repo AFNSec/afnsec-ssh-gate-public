@@ -45,7 +45,7 @@ It is designed as a **lightweight security appliance**:
 1️⃣ Download and run the installer:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AFNSec/afnsec-ssh-gate/master/install.sh -o install.sh
+curl -fsSL https://raw.githubusercontent.com/AFNSec/afnsec-ssh-gate-public/master/install.sh -o install.sh
 chmod +x install.sh
 sudo ./install.sh
 ```
