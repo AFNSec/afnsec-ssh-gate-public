@@ -163,6 +163,8 @@ deny reason (intel or geo)
 
 one time nft status (if package not found and disabled)
 
+nft firewall add/error
+
 🧹 Uninstall
 
 ````bash
