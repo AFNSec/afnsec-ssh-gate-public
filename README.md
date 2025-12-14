@@ -64,6 +64,8 @@ sudo ./install.sh
 
 - set up automatic cache maintenance
 
+- setup nft(nftables) afnsec profile for firewall blocking if available.
+
 - start in DRY_RUN mode (log-only)
 
 After installation
