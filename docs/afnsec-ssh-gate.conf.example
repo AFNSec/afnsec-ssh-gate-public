@@ -112,7 +112,39 @@ LOG_LEVEL=info               # info | debug
 #     GEO_MODE=block
 #     GEO_SCOPE=country
 #     GEO_LIST=HK,SG,RU,IR
+   GEO_MODE=off
+   GEO_SCOPE=continent
+   GEO_LIST=
 # =========================
-GEO_MODE=off
-GEO_SCOPE=continent
-GEO_LIST=
+
+# =========================
+# Brute-force protection (SSH-only)
+# =========================
+# Optional fail2ban-like protection for IPs with UNKNOWN intel verdicts.
+# This is behavior-based (auth attempts), not intel-based.
+#
+# Rules:
+# - Applies ONLY when verdict == "unknown"
+# - Admin bypass CIDRs are NEVER blocked
+# - Private IPs are NEVER blocked
+# - SSH-only nftables blocking
+#
+# When threshold is reached, the IP is:
+# - denied immediately
+# - added to nftables with BF_TTL_SEC
+#
+# Default: disabled
+
+BF_MODE=off
+
+# Number of SSH auth attempts allowed within the time window
+# before blocking triggers.
+BF_THRESHOLD=10
+
+# Sliding window (seconds) for counting attempts
+BF_WINDOW_SEC=120
+
+# How long (in seconds) an IP is blocked in nftables
+# when BF threshold is exceeded.
+# Default: 30 minutes (1800 seconds)
+BF_TTL_SEC=1800
