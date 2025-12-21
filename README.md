@@ -168,7 +168,7 @@ nft firewall add/error
 🧹 Uninstall
 
 ````bash
-curl -fsSL https://raw.githubusercontent.com/AFNSec/afnsec-ssh-gate/master/uninstall.sh -o uninstall.sh
+curl -fsSL https://raw.githubusercontent.com/AFNSec/afnsec-ssh-gate-public/master/uninstall.sh -o uninstall.sh
 chmod +x uninstall.sh
 sudo ./uninstall.sh
 ````
